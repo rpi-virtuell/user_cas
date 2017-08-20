@@ -117,7 +117,17 @@ class AuthenticationController extends Controller
             if (!$this->appService->isCasInitialized()) $this->appService->init();
 
             try {
-
+                
+                /**
+                 *   20170820
+                 *   while infinit authentifation loop 
+                 *   and no possibillyty to set proxies via form
+                 *   we need this workarround for cassava server
+                 *   
+                 *   set CAS_Client::_clearTicketsFromUrl to false 
+                 */
+                \phpCAS::setNoClearTicketsFromUrl();
+                
                 if (\phpCAS::isAuthenticated()) {
 
                     $userName = \phpCAS::getUser();
